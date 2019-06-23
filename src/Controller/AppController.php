@@ -7,21 +7,23 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use App\Entity\Notes;
 use Doctrine\ORM\EntityManagerInterface;
+use App\Repository\NotesRepository;
 
 class AppController extends AbstractController
 {
     /**
      * @Route("/", name="appHomepage")
      */
-    public function app(SessionInterface $session)
+    public function app(SessionInterface $session, NotesRepository $nR)
     {
         $user=$session->get('user');
+        $id=$user->getId();
         if(!$user)
         {
             return $this->redirectToRoute('userLogIn', []);
         }
         
-        $notes=$user->getNotes();
+        $notes=$nR->findBy(['user'=>$id]);
         return $this->render('app/index.html.twig', [
             'notes'=>$notes,
             'name'=>$user->getLogin()
@@ -36,11 +38,11 @@ class AppController extends AbstractController
         $user=$s->get('user');
         $now=new \DateTime();
         $note=new Notes();
-        $note->setContent("I'm first note!");
+        $note->setContent("I'm second note!");
         $note->setCreatedAt($now);
         $note->setUser($user);
 
-        $em->persist($note);
+        $em->merge($note);
         $em->flush();
 
         return $this->redirectToRoute('appHomepage', []);
