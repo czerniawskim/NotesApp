@@ -5,6 +5,7 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
@@ -36,7 +37,7 @@ class AppController extends AbstractController
     /**
      * @Route("/new", name="noteAdd")
      */
-    public function new(EntityManagerInterface $em, SessionInterface $s)
+    public function new(EntityManagerInterface $em, SessionInterface $s, Request $request)
     {
         $form=$this->createFormBuilder()
         ->add('Content', TextareaType::class,[
@@ -52,17 +53,26 @@ class AppController extends AbstractController
         ])
         ->getForm();
 
-        $user=$s->get('user');
-        $now=new \DateTime();
-        $note=new Notes();
-        $note->setContent("");
-        $note->setCreatedAt($now);
-        $note->setUser($user);
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid())
+        {
+            $content=$form->getData();
+            $content=$content["Content"];
+            $user=$s->get('user');
+            $now=new \DateTime();
+            $note=new Notes();
+            $note->setContent($content);
+            $note->setCreatedAt($now);
+            $note->setUser($user);
 
-        $em->merge($note);
-        $em->flush();
+            $em->merge($note);
+            $em->flush();
 
-        return $this->redirectToRoute('appHomepage', []);
+            return $this->redirectToRoute('appHomepage', []);
+        }
+        return $this->render('app/new.html.twig', [
+            'form'=>$form->createView()
+        ]);
     }
 
     /**

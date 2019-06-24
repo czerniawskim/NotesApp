@@ -5,12 +5,19 @@
 
 {% block body %}
     <div class="appContent">
-        <div class="user">
-            <h3>Hello
-                {{name}}</h3>
-            <a href="{{path('userLogout')}}">
-                <button>Logout</button>
-            </a>
+        <div class="side">
+            <div class="user">
+                <h3>Hello
+                    {{name}}</h3>
+                <a href="{{path('userLogout')}}">
+                    <button>Logout</button>
+                </a>
+            </div>
+            <div class="additionalContent">
+                <a href="{{path("noteAdd")}}" class="newNote">
+                    <button>Add new</button>
+                </a>
+            </div>
         </div>
         <div class="data" id="notes">
             {% for key,val in notes %}
@@ -18,7 +25,7 @@
                     {% set letters = val.Content|length %}
                     <a class="del" href="#" data-id="{{val.id}}">X</a>
                     {% if letters > 184 %}
-                        {% set cutted = val.Content|slice(0,183) %}
+                        {% set cutted = val.Content|slice(0,155) %}
                         <p aria-label="{{val.Content}}">{{cutted}}...</p>
                     {% else %}
                         <p>{{val.Content}}</p>
