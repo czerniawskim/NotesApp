@@ -12,10 +12,17 @@
                 <button>Logout</button>
             </a>
         </div>
-        <div class="data">
+        <div class="data" id="notes">
             {% for key,val in notes %}
                 <div class="note">
-                    <p>{{val.Content}}</p>
+                    {% set letters = val.Content|length %}
+                    <a class="del" href="#" data-id="{{val.id}}">X</a>
+                    {% if letters > 184 %}
+                        {% set cutted = val.Content|slice(0,183) %}
+                        <p aria-label="{{val.Content}}">{{cutted}}...</p>
+                    {% else %}
+                        <p>{{val.Content}}</p>
+                    {% endif %}
                 </div>
             {% endfor %}
         </div>

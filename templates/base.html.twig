@@ -22,6 +22,8 @@
             {% endfor %}
         {% endif %}
         {% block body %}{% endblock %}
-        {% block javascripts %}{% endblock %}
+        {% block javascripts %}
+            <script src="{{asset('scripts/delete.js')}}"></script>
+        {% endblock %}
     </body>
 </html>

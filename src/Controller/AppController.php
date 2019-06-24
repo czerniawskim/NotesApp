@@ -4,6 +4,9 @@ namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use App\Entity\Notes;
 use Doctrine\ORM\EntityManagerInterface;
@@ -31,14 +34,28 @@ class AppController extends AbstractController
     }
 
     /**
-     * @Route("/new")
+     * @Route("/new", name="noteAdd")
      */
     public function new(EntityManagerInterface $em, SessionInterface $s)
     {
+        $form=$this->createFormBuilder()
+        ->add('Content', TextareaType::class,[
+            'attr'=>[
+                'placeholder'=>'Note content',
+                'class'=>'ninpt'
+            ]
+        ])
+        ->add('Create', SubmitType::class,[
+            'attr'=>[
+                'class'=>'nsub'
+            ]
+        ])
+        ->getForm();
+
         $user=$s->get('user');
         $now=new \DateTime();
         $note=new Notes();
-        $note->setContent("I'm third note!");
+        $note->setContent("");
         $note->setCreatedAt($now);
         $note->setUser($user);
 
@@ -46,5 +63,27 @@ class AppController extends AbstractController
         $em->flush();
 
         return $this->redirectToRoute('appHomepage', []);
+    }
+
+    /**
+     * @Route("/delete/{id}", name="noteDelete", methods={"POST"})
+     */
+    public function delete($id, EntityManagerInterface $em)
+    {
+        $note=$this->getDoctrine()->getRepository(Notes::class)->find($id);
+
+        if(!$note)
+        {
+            $this->addFlash(
+                'danger',
+                'Something went wrong'
+            );
+        }
+
+        $em->remove($note);
+        $em->flush();
+        $em->clear();
+
+        return new Response();
     }
 }
