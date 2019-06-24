@@ -17,12 +17,12 @@ class AppController extends AbstractController
     public function app(SessionInterface $session, NotesRepository $nR)
     {
         $user=$session->get('user');
-        $id=$user->getId();
         if(!$user)
         {
             return $this->redirectToRoute('userLogIn', []);
         }
         
+        $id=$user->getId();
         $notes=$nR->findBy(['user'=>$id]);
         return $this->render('app/index.html.twig', [
             'notes'=>$notes,
@@ -38,7 +38,7 @@ class AppController extends AbstractController
         $user=$s->get('user');
         $now=new \DateTime();
         $note=new Notes();
-        $note->setContent("I'm second note!");
+        $note->setContent("I'm third note!");
         $note->setCreatedAt($now);
         $note->setUser($user);
 

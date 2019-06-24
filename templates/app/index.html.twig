@@ -4,18 +4,20 @@
 {% endblock %}
 
 {% block body %}
-    <div class="user">
-        <h3>Hello
-            {{name}}</h3>
-        <a href="{{path('userLogout')}}">
-            <button>Logout</button>
-        </a>
-    </div>
-    <div class="data">
-        {% for key,val in notes %}
-            <div class="note">
-                {{val.Content}}
-            </div>
-        {% endfor %}
+    <div class="appContent">
+        <div class="user">
+            <h3>Hello
+                {{name}}</h3>
+            <a href="{{path('userLogout')}}">
+                <button>Logout</button>
+            </a>
+        </div>
+        <div class="data">
+            {% for key,val in notes %}
+                <div class="note">
+                    <p>{{val.Content}}</p>
+                </div>
+            {% endfor %}
+        </div>
     </div>
 {% endblock %}

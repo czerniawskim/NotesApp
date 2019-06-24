@@ -1,0 +1,52 @@
+.appContent{
+    width:100%;
+    height:100%;
+}
+
+.appContent .user{
+    float:right;
+    width:15%;
+    height: 90px;
+    border: .5px solid gray;
+    border-radius: 5px;
+    margin-top:.5%;
+    margin-right: .5%;
+    box-shadow: 0 0 5px 1px gray;
+}
+.appContent .user h3{
+    text-align: center;
+    font-style: oblique;
+}
+.appContent .user button{
+    width:90%;
+    height:35px;
+    margin-left: 5%;
+    margin-top: 1.5%;
+    border: none;
+    border-radius: 25px;
+    background-color: rgb(102, 117, 199);
+    color:white;
+}
+
+.appContent .data{
+    float:left;
+    width:82%;
+    height: auto;
+    max-height: 900px;
+    border: .5px solid gray;
+    border-radius: 5px;
+    margin-top:.5%;
+    margin-left: .5%;
+    box-shadow: 0 0 5px 1px gray;
+}
+.appContent .data .note{
+    border:.5px solid blue;
+    width:20%;
+    height:155px;
+    float:left;
+    margin: .9%;
+    padding:.5%;
+}
+.appContent .data .note p{
+    border-bottom:1px solid black;
+}
