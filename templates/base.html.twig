@@ -8,7 +8,7 @@
         {% block stylesheets %}
             <link href="{{asset("styles/user.css")}}" rel="stylesheet"/>
             <link href="{{asset("styles/app.css")}}" rel="stylesheet"/>
-            <link crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" rel="stylesheet">
+            <link href="{{asset('styles/alerts.css')}}" rel="stylesheet">
         {% endblock %}
     </head>
     <body>
@@ -23,7 +23,7 @@
         {% endif %}
         {% block body %}{% endblock %}
         {% block javascripts %}
-            <script src="{{asset('scripts/delete.js')}}"></script>
+            <script src="https://kit.fontawesome.com/75e13d0c4b.js" crossorigin="anonymous"></script>
         {% endblock %}
     </body>
 </html>

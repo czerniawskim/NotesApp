@@ -8,30 +8,30 @@
         <div class="side">
             <div class="user">
                 <h3>Hello
-                    {{name}}</h3>
+                    {{app.session.get('user').Login}}</h3>
                 <a href="{{path('userLogout')}}">
                     <button>Logout</button>
                 </a>
-            </div>
-            <div class="additionalContent">
-                <a href="{{path("noteAdd")}}" class="newNote">
-                    <button>Add new</button>
-                </a>
+                <button class="add">Add new</button>
             </div>
         </div>
         <div class="data" id="notes">
-            {% for key,val in notes %}
-                <div class="note">
-                    {% set letters = val.Content|length %}
-                    <a class="del" href="#" data-id="{{val.id}}">X</a>
-                    {% if letters > 184 %}
-                        {% set cutted = val.Content|slice(0,155) %}
-                        <p aria-label="{{val.Content}}">{{cutted}}...</p>
-                    {% else %}
-                        <p>{{val.Content}}</p>
-                    {% endif %}
-                </div>
-            {% endfor %}
+            {% if notes is not empty %}
+                {% for note in notes %}
+                    <div class="note">
+                        <p>{{note.Content}}</p>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <h2>You have no notes</h2>
+            {% endif %}
         </div>
     </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script src="{{asset('scripts/delete.js')}}"></script>
+    <script src="{{asset('scripts/add.js')}}"></script>
+    <script src="{{asset('scripts/edit.js')}}"></script>
+    {{parent()}}
 {% endblock %}

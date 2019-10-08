@@ -5,13 +5,11 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use App\Entity\Notes;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\NotesRepository;
+use App\Repository\UsersRepository;
 
 class AppController extends AbstractController
 {
@@ -27,60 +25,36 @@ class AppController extends AbstractController
         }
         
         $id=$user->getId();
-        $notes=$nR->findBy(['user'=>$id]);
+        $notes=$nR->findBy(array('user'=>$id), array('createdAt'=>'DESC'));
         return $this->render('app/index.html.twig', [
-            'notes'=>$notes,
-            'name'=>$user->getLogin()
+            'notes'=>$notes
         ]);
     }
 
     /**
-     * @Route("/new", name="noteAdd")
+     * @Route("/new/{content}", methods={"POST"})
      */
-    public function new(EntityManagerInterface $em, SessionInterface $s, Request $request)
+    public function new($content, EntityManagerInterface $em, SessionInterface $session, UsersRepository $uR, NotesRepository $nR)
     {
-        $form=$this->createFormBuilder()
-        ->add('Content', TextareaType::class,[
-            'attr'=>[
-                'placeholder'=>'Note content',
-                'class'=>'ninpt'
-            ]
-        ])
-        ->add('Create', SubmitType::class,[
-            'attr'=>[
-                'class'=>'nsub'
-            ]
-        ])
-        ->getForm();
+        $user = $uR->findBy(['Login'=>$session->get('user')->getLogin()]);
 
-        $form->handleRequest($request);
-        if($form->isSubmitted() && $form->isValid())
-        {
-            $content=$form->getData();
-            $content=$content["Content"];
-            $user=$s->get('user');
-            $now=new \DateTime();
-            $note=new Notes();
-            $note->setContent($content);
-            $note->setCreatedAt($now);
-            $note->setUser($user);
+        $note = new Notes();
+        $note->setContent($content);
+        $note->setCreatedAt(new \DateTime());
+        $note->setUser($user[0]);
 
-            $em->merge($note);
-            $em->flush();
-
-            return $this->redirectToRoute('appHomepage', []);
-        }
-        return $this->render('app/new.html.twig', [
-            'form'=>$form->createView()
-        ]);
+        $em->persist($note);
+        $em->flush();
+        
+        return new Response();
     }
 
     /**
-     * @Route("/delete/{id}", name="noteDelete", methods={"POST"})
+     * @Route("/delete/{id}", methods={"POST"})
      */
-    public function delete($id, EntityManagerInterface $em)
+    public function delete($id, EntityManagerInterface $em, NotesRepository $nR)
     {
-        $note=$this->getDoctrine()->getRepository(Notes::class)->find($id);
+        $note=$nR->findBy(['id'=>$id]);
 
         if(!$note)
         {
@@ -90,9 +64,30 @@ class AppController extends AbstractController
             );
         }
 
-        $em->remove($note);
+        $em->remove($note[0]);
         $em->flush();
-        $em->clear();
+
+        return new Response();
+    }
+
+    /**
+     * @Route("/edit/{id}/{content}", methods={"POST"})
+     */
+    public function edit($id, $content, EntityManagerInterface $em, NotesRepository $nR)
+    {
+        $note = $nR->findBy(['id'=>$id]);
+
+        if(!$note)
+        {
+            $this->addFlash(
+                'danger',
+                'Something went wrong'
+            );
+        }
+
+        $note[0]->setContent($content);
+
+        $em->flush();
 
         return new Response();
     }

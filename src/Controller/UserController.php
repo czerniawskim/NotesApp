@@ -12,13 +12,14 @@ use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use App\Entity\Users;
 use Doctrine\ORM\EntityManagerInterface;
+use App\Repository\UsersRepository;
 
 class UserController extends AbstractController
 {
     /**
      * @Route("/user/login", name="userLogIn")
      */
-    public function login(Request $request, SessionInterface $session)
+    public function login(Request $request, SessionInterface $session, UsersRepository $uR)
     {
         $form=$this->createFormBuilder()
         ->add('Username', TextType::class, [
@@ -46,12 +47,12 @@ class UserController extends AbstractController
         {
             $data=$form->getData();
 
-            $exist=$this->getDoctrine()->getRepository(Users::class)->findOneBy(array('Login'=>$data['Username']),array());
+            $exist=$uR->findBy(['Login'=>$data['Username']]);
             if($exist)
             {
-                if($data['Password']===$exist->getPassword())
+                if($data['Password']===$exist[0]->getPassword())
                 {
-                    $session->set('user', $exist);
+                    $session->set('user', $exist[0]);
 
                     return $this->redirectToRoute('appHomepage', []);
                 }
@@ -91,9 +92,7 @@ class UserController extends AbstractController
         ])
         ->add('Password', RepeatedType::class, [
             'type'=>PasswordType::class,
-            'invalid_message'=>'Passwords must be the same',
             'options'=>['attr'=>['class'=>'rinp']],
-            'required'=>true,
             'first_options'=>['attr'=>['placeholder'=>'Password']],
             'second_options'=>['attr'=>['placeholder'=>'Repeat password']]
         ])
