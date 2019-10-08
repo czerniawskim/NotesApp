@@ -10,8 +10,8 @@ if (notesCollection) {
         if (delLink[i].getAttribute("data-id") == id) {
           var delPar = delLink[i].parentElement;
           var content =
-            delLink[i].parentElement.parentElement.parentElement.firstChild
-              .innerHTML;
+            delLink[i].parentElement.parentElement.parentElement.childNodes[1]
+              .innerText;
           break;
         }
       }
