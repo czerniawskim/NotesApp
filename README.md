@@ -1,7 +1,7 @@
 ## Tech
 
-· Symfony
+* Symfony
 
-· JavaScript
+* JavaScript
 
-· Bootstrap alerts
+* Bootstrap alerts
