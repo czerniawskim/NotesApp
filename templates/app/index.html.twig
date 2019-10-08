@@ -19,7 +19,18 @@
             {% if notes is not empty %}
                 {% for note in notes %}
                     <div class="note">
-                        <p>{{note.Content}}</p>
+                        <div class="content">{{note.Content}}</div>
+                        <div class="side">
+                            <p>
+                                <i class="fas fa-pen" data-id="{{note.id}}"></i>
+                            </p>
+                            <p>
+                                <i class="fas fa-calendar-alt" title="{{note.createdAt|date('M d,Y H:i')}}"></i>
+                            </p>
+                            <p>
+                                <i class="fas fa-trash-alt" data-id="{{note.id}}"></i>
+                            </p>
+                        </div>
                     </div>
                 {% endfor %}
             {% else %}

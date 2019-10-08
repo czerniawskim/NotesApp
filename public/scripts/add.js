@@ -22,6 +22,7 @@ if (addButton) {
 
     var addContent = document.createElement("textarea");
     addContent.classList.add("add-content");
+    addContent.required = true;
 
     addForm.appendChild(addContent);
 
