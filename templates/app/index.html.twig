@@ -6,11 +6,18 @@
 
 {% block body %}
 	<div class="appContent">
+		{% for label, messages in app.flashes %}
+			{% for message in messages %}
+				<div class='alert alert-{{label}}'>
+					{{message|raw}}
+				</div>
+			{% endfor %}
+		{% endfor %}
 		<div class="side">
 			<div class="user">
 				<p>Hello
 					{% if app.user.name %}
-						{{app.user.name}}
+						{{app.user.name|capitalize}}
 					{% else %}
 						{{app.user.username}}
 					{% endif %}
@@ -19,15 +26,37 @@
 					Logout
 				</a>
 				<a>Add new</a>
+				<div class='new-form'>
+					<form action="{{path('newNote')}}" method="POST">
+						<label for='new-content'>
+							<input type='text' name='content' class='new-input' id='new-content' required>
+						</label>
+						<input type='submit' value='Make new note'>
+					</form>
+				</div>
 			</div>
 		</div>
-		<div class="data" id="notes"></div>
+		<div class="data" id="notes">
+			{% for note in app.user.notes|sort((a, b) => b.createdAt|date('Y-m-d H:i:s') <=> a.createdAt|date('Y-m-d H:i:s')) %}
+				<div class='note'>
+					<p class='content'>
+						{{note.content|raw}}
+					</p>
+					<p class='date'>
+						{{note.createdAt|date('d-m-Y')}}
+					</p>
+					<a href="{{path('editNote', {'id': note.id})}}">
+						Edit
+					</a>
+					<p class='delete' data-id={{note.id}}>
+						Delete
+					</p>
+				</div>
+			{% endfor %}
+		</div>
 	</div>
 {% endblock %}
 
 {% block javascripts %}
-	<script src="/scripts/delete.js"></script>
-	<script src="/scripts/add.js"></script>
-	<script src="/scripts/edit.js"></script>
-	{{parent()}}
+	<script src="/js/delete.js"></script>
 {% endblock %}

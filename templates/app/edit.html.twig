@@ -1,0 +1,14 @@
+{% extends "base.html.twig" %}
+
+{% block title %}
+	Edit
+{% endblock %}
+
+{% block body %}
+	{{form_start(update)}}
+	{{form_row(update.content)}}
+	{{form_row(update.created)}}
+	{{form_row(update.owner)}}
+	{{form_row(update.submit)}}
+	{{form_end(update)}}
+{% endblock %}

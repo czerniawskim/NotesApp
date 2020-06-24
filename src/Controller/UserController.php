@@ -55,7 +55,7 @@ class UserController extends AbstractController
                     $this->addFlash('danger', "User with such credentials already exists");
                 }
             } catch (QueryException $qe) {
-                throw "Error occured during register process. Please try again. Error message: {$qe->getMessage()}";
+                throw $qe->getMessage();
             }
         }
 
