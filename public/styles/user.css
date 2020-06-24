@@ -1,0 +1,83 @@
+.LogForm {
+  height: 75vh;
+  width: 50%;
+  margin: 12.5vh auto;
+  display: flex;
+  flex-direction: column;
+  background-color: #404040;
+  color: #fff;
+  padding: 3em 4em;
+}
+.LogForm a {
+  color: #fff;
+  width: 175px;
+  margin: 2.5em auto;
+}
+.LogForm form {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  height: 75%;
+}
+.LogForm label {
+  font-size: 1.25em;
+}
+.LogForm input {
+  width: 100%;
+  height: 8vh;
+  padding: 0 1em;
+  border-radius: 8px;
+  border: 1px solid #404040;
+  font-size: 1.2em;
+}
+.LogForm button {
+  width: 50%;
+  margin: 0 auto;
+  height: 8vh;
+  font-size: 1.25em;
+}
+
+.RegForm {
+  height: 85vh;
+  width: 50%;
+  margin: 7.5vh auto;
+  display: flex;
+  flex-direction: column;
+  background-color: #404040;
+  color: #fff;
+  padding: 3em 4em;
+}
+.RegForm a {
+  color: #fff;
+  width: 175px;
+  margin: 0.5em auto;
+}
+.RegForm form {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  height: 95%;
+  width: 100%;
+}
+.RegForm div {
+  width: 100%;
+}
+.RegForm label {
+  font-size: 1.15em;
+}
+.RegForm input {
+  width: 100%;
+  height: 7vh;
+  padding: 0 1em;
+  border-radius: 8px;
+  border: 1px solid #404040;
+  font-size: 1.2em;
+}
+.RegForm button {
+  width: 50%;
+  margin: 0 auto;
+  height: 7vh;
+  font-size: 1.25em;
+}
