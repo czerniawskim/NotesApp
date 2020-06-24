@@ -1,29 +1,16 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>
-            {% block title %}{% endblock %}
-        </title>
-        {% block stylesheets %}
-            <link href="{{asset("styles/user.css")}}" rel="stylesheet"/>
-            <link href="{{asset("styles/app.css")}}" rel="stylesheet"/>
-            <link href="{{asset('styles/alerts.css')}}" rel="stylesheet">
-        {% endblock %}
-    </head>
-    <body>
-        {% if app.request.hasPreviousSession %}
-            {% for label,messages in app.flashes %}
-                {% for message in messages %}
-                    <div class="alert alert-{{label}}">
-                        {{message}}
-                    </div>
-                {% endfor %}
-            {% endfor %}
-        {% endif %}
-        {% block body %}{% endblock %}
-        {% block javascripts %}
-            <script src="https://kit.fontawesome.com/75e13d0c4b.js" crossorigin="anonymous"></script>
-        {% endblock %}
-    </body>
+	<head>
+		<meta charset="UTF-8">
+		<title>
+			{% block title %}{% endblock %}
+		</title>
+		{% block stylesheets %}
+			<link href="/styles/alerts.css" rel="stylesheet">
+		{% endblock %}
+	</head>
+	<body>
+		{% block body %}{% endblock %}
+		{% block javascripts %}{% endblock %}
+	</body>
 </html>

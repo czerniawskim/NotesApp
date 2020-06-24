@@ -4,17 +4,25 @@
 {% endblock %}
 
 {% block body %}
-    <div class="formContainer">
-        <div class="RegForm">
-            <h2>Register</h2>
-            {{form_start(form)}}
-            {{form_widget(form.Username)}}
-            {{form_widget(form.Password.first)}}
-            {{form_widget(form.Password.second)}}
-            {{form_widget(form.Email)}}
-            {{form_widget(form.Submit)}}
-            {{form_end(form)}}
-            <a href="{{path('userLogIn')}}">You have account already?</a>
-        </div>
-    </div>
+	<div class="formContainer">
+		<div class="RegForm">
+			<h2>Register</h2>
+			{{form_start(register)}}
+			{% for label, messages in app.flashes %}
+				{% for message in messages %}
+					<div class="alert alert-{{label}}">
+						{{message|raw}}
+					</div>
+				{% endfor %}
+			{% endfor %}
+			{{form_row(register.username)}}
+			{{form_row(register.password.first)}}
+			{{form_row(register.password.second)}}
+			{{form_row(register.email)}}
+			{{form_row(register.name)}}
+			{{form_row(register.submit)}}
+			{{form_end(register)}}
+			<a href="{{path('login')}}">You have account already?</a>
+		</div>
+	</div>
 {% endblock %}

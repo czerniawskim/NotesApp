@@ -27,10 +27,10 @@ class Notes
     private $createdAt;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Users", inversedBy="Notes")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Users", inversedBy="notes")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $user;
+    private $owner;
 
     public function getId(): ?int
     {
@@ -61,14 +61,14 @@ class Notes
         return $this;
     }
 
-    public function getUser(): ?Users
+    public function getOwner(): ?Users
     {
-        return $this->user;
+        return $this->owner;
     }
 
-    public function setUser(?Users $user): self
+    public function setOwner(?Users $owner): self
     {
-        $this->user = $user;
+        $this->owner = $owner;
 
         return $this;
     }
