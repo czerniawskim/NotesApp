@@ -5,8 +5,16 @@
 		<title>
 			{% block title %}{% endblock %}
 		</title>
+		<style>
+			*
+			{margin:0;padding:0;box-sizing:border-box}
+			button,
+			input[type="submit"]
+			{cursor:pointer}
+			a
+			{text-decoration:none}
+		</style>
 		{% block stylesheets %}
-			<link href="/styles/app.css" rel="stylesheet">
 			<link href="/styles/alerts.css" rel="stylesheet">
 		{% endblock %}
 	</head>

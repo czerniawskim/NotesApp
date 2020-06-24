@@ -1,6 +1,12 @@
 {% extends "base.html.twig" %}
 
-{% block title %}Register
+{% block title %}
+	Register
+{% endblock %}
+
+{% block stylesheets %}
+	{{parent()}}
+	<link href="/styles/user.css" rel="stylesheet">
 {% endblock %}
 
 {% block body %}

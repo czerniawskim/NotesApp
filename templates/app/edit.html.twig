@@ -4,11 +4,19 @@
 	Edit
 {% endblock %}
 
+{% block stylesheets %}
+	{{parent()}}
+	<link href="/styles/app.css" rel="stylesheet">
+{% endblock %}
+
 {% block body %}
-	{{form_start(update)}}
+	{{form_start(update, {'attr': {'class': 'edit-form'}})}}
+	<a href="{{path('homepage')}}">
+		Back
+	</a>
 	{{form_row(update.content)}}
 	{{form_row(update.created)}}
 	{{form_row(update.owner)}}
-	{{form_row(update.submit)}}
+	{{form_widget(update.submit)}}
 	{{form_end(update)}}
 {% endblock %}
